@@ -29,10 +29,12 @@ if [[ -d "hooks" ]]; then
   for f in hooks/* ; do
       echo "call: $f"
       call=$(cat $f)
-      releases/$version/$call
+      cd releases/$version/
+      $call
   done
 fi
 echo
+cd $DIR
 
 echo "Replece current to releases/$version/"
 cp -a $DIR/releases/$version $DIR/current_tmp
