@@ -2,12 +2,18 @@
 
 set -e
 
-DIR=${1:-$(pwd)}
+DIR=$1
 MAX=${2:-10}
 
 echo
 echo "---------------------------"
 echo "Garbage Collection in releases"
+echo
+if [[ ! -d "$DIR" ]]; then
+    echo "Path is required!"
+    echo
+    exit
+fi
 cd $DIR
 if [[ ! -d "releases" ]]; then
     echo "Releases path not found in '$DIR'"

@@ -2,7 +2,7 @@
 
 set -e
 
-DIR=${1:-$(pwd)}
+DIR=$1
 version=${2:-$(date +%s)}
 
 echo
@@ -10,6 +10,11 @@ echo '---------------------------'
 echo 'START SERVER RELEASE'
 echo
 
+if [[ ! -d "$DIR" ]]; then
+    echo "Path is required!"
+    echo
+    exit
+fi
 cd $DIR
 if [[ ! -d "repo" ]]; then
   echo "Repo not found in '$DIR'"
@@ -20,7 +25,7 @@ echo "Repo copy to releases/$version"
 cp -a repo/* releases/$version/
 if [[ -d "shared" ]]; then
   for f in $DIR/shared/* $DIR/shared/.env; do
-    ln -sf $f $DIR/releases/$version/;
+    ln -sf $f $DIR/releases/$version/
   done
   echo "Created shared links in releases/$version/"
 fi
