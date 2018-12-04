@@ -2,6 +2,8 @@
 
 set -e
 
+BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 DIR=$1
 version=${2:-$(date +%s)}
 
@@ -14,13 +16,13 @@ echo
 if [[ ! -d "$DIR" ]]; then
     echo "Path is required!"
     echo
-    exit
+    exit 1
 fi
 cd $DIR
 # Validate repo path exists in the APP
 if [[ ! -d "repo" ]]; then
   echo "Repo not found in '$DIR'"
-  exit
+  exit 1
 fi
 
 # Exec hook in the repo
@@ -58,11 +60,7 @@ echo
 cd $DIR
 
 # Link current in the release version
-echo "Replece current to releases/$version/"
-cp -a $DIR/releases/$version $DIR/current_tmp
-mv current current_old
-mv current_tmp current
-rm -rf current_old
+$BIN_DIR/set-current-release.sh $DIR $version
 
 echo
 echo 'FINISHED SERVER RELEASE'
