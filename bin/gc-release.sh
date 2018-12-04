@@ -6,19 +6,16 @@ DIR=$1
 MAX=${2:-10}
 
 echo
-echo "---------------------------"
 echo "Garbage Collection in releases"
 echo
-if [[ ! -d "$DIR" ]]; then
+if [[ ! "$DIR" || ! -d "$DIR" ]]; then
     echo "Path is required!"
-    echo
-    exit
+    exit 1
 fi
 cd $DIR
 if [[ ! -d "releases" ]]; then
     echo "Releases path not found in '$DIR'"
-    echo
-    exit
+    exit 1
 fi
 echo
 count=0
@@ -32,5 +29,4 @@ do
 done
 echo
 echo "Finished Garbage Collection"
-echo "---------------------------"
 echo
