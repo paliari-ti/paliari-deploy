@@ -1,0 +1,21 @@
+publish:
+  remote:
+    user: isse
+    host: isse.maringa.pr.gov.br
+    path: /home/isse/app/api
+  git:
+    url: git@git.paliari.com.br:paliari/paliari-deploy.git
+  scp:
+    dist: .|dist
+hooks:
+  repo:
+    before:
+      - echo berore rep
+    after:
+      - echo after repo
+  release:
+    before:
+      - echo before release
+      - echo before release 2
+    after:
+      - echo after release
