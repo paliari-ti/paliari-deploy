@@ -20,6 +20,16 @@ if [[ ! -d "repo" ]]; then
   echo "Repo not found in '$DIR'"
   exit
 fi
+if [[ -f "repo/.deploy-hooks-repo" ]]; then
+  while read -r call; do
+    echo "exec: [$call] in repo"
+    cd repo/
+    $call
+  done < "repo/.deploy-hooks-repo"
+fi
+echo
+cd $DIR
+
 mkdir -p releases/$version
 echo "Repo copy to releases/$version"
 cp -a repo/* releases/$version/
@@ -29,14 +39,13 @@ if [[ -d "shared" ]]; then
   done
   echo "Created shared links in releases/$version/"
 fi
-if [[ -d "hooks" ]]; then
-  echo exec hooks
-  for f in hooks/* ; do
-      echo "call: $f"
-      call=$(cat $f)
-      cd releases/$version/
-      $call
-  done
+
+if [[ -f "repo/.deploy-hooks-releases" ]]; then
+  while read -r call; do
+    echo "exec: [$call] in releases/$version"
+    cd releases/$version/
+    $call
+  done < "repo/.deploy-hooks-releases"
 fi
 echo
 cd $DIR
