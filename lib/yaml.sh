@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Based on https://github.com/jasperes/bash-yaml
 

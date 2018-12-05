@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 echo_blue() {
   printf "\033[34m$1\033[0m\n"
