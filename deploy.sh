@@ -1,16 +1,24 @@
 #!/usr/bin/env sh
 set -e
 
-BASH_SRC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+RUN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-source $BASH_SRC_DIR/lib/yaml.sh
+source ${RUN_DIR}/lib/colors.sh
 
 action=$1
 
-echo $action
+if [[ '--help' == "$action" || '-h' == "$action" ]]; then
+	cat "$RUN_DIR/help.txt"
+	echo
+	exit
+fi
 
-create_variables config.default.yml
-
-for i in ${!hooks_release_before[*]}; do
-  echo "a: $i: ${hooks_release_before[$i]}"
-done
+set -- "${@:2:$#}"
+if [ -f "$RUN_DIR/bin/$action.sh" ]; then
+  ${RUN_DIR}/bin/$action.sh $@
+else
+  echo_red "COMMAND \"$action\" not found!"
+	echo
+	cat "$RUN_DIR/help.txt"
+	echo
+fi
