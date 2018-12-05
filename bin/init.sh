@@ -6,10 +6,10 @@ source ${RUN_DIR}/lib/colors.sh
 source ${RUN_DIR}/lib/yaml.sh
 
 DIR=$1
-version=${2:-$(date +%s)}
+FILE_STAGE=".deploy/stage-$2.yml"
 
 echo
-echo_blue 'DEPLOY SETUP IN THE SERVER-----------------------'
+echo_blue 'SETUP DEPLOY REMOTE---------------------------'
 echo
 
 # Validate APP path exists
@@ -18,11 +18,24 @@ if [[ ! -d "$DIR" ]]; then
     exit 1
 fi
 cd $DIR
-if [[ ! -f "$DIR/.deploy/stage.*.yml" ]]; then
+if [[ -f ${FILE_STAGE} ]]; then
+  echo_yellow "Setup stage $FILE_STAGE"
+  create_variables ${FILE_STAGE}
+  cmd="mkdir -p $deploy_remote_path && cd $deploy_remote_path"
+  cmd="$cmd && mkdir -p releases && mkdir -p shared && mkdir -p current"
+  if [[ ${deploy_publish_git_url} ]]; then
+    cmd="$cmd && rm -rf repo && git clone --depth 1 $deploy_publish_git_url repo"
+  else
+    cmd="$cmd && mkdir -p repo"
+  fi
+  echo_yellow "Exec remote: $cmd"
+  ssh -t ${deploy_remote_user}@${deploy_remote_host} "$cmd"
+  echo_green "Success full setup remote"
+else
   echo_red "Config file not found in the '$DIR/.deploy/'"
   exit 1
 fi
 
 echo
-echo_green 'DEPLOYED SETUP IN THE SERVER-----------------------'
+echo_blue 'FINISHED SETUP DEPLOY REMOTE-----------------'
 echo
