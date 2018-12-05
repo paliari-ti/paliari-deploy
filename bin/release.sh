@@ -25,8 +25,8 @@ if [[ ! -d "repo" ]]; then
   exit 1
 fi
 
-if [[ -f "$DIR/.deploy.config.yml" ]]; then
-  create_variables $DIR/.deploy.config.yml
+if [[ -f "$DIR/.deploy/hooks.yml" ]]; then
+  create_variables $DIR/.deploy/hooks.yml
 fi
 
 # Exec hook in the repo

@@ -1,0 +1,8 @@
+deploy:
+  hooks:
+    repo:
+      - echo call 1 in the repo
+      - echo call 2 in the repo
+    releases:
+      - echo call 1 in the release
+      - echo call 2 in the release
