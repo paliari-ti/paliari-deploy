@@ -26,7 +26,7 @@ if [[ -f ${FILE_STAGE} ]]; then
   if [[ ${deploy_publish_git_url} ]]; then
     cmd="$cmd && rm -rf repo && git clone --depth 1 $deploy_publish_git_url repo"
   else
-    cmd="$cmd && mkdir -p repo"
+    cmd="$cmd && mkdir -p repo/.deploy"
   fi
   echo_yellow "Exec remote: $cmd"
   ssh -t ${deploy_remote_user}@${deploy_remote_host} "$cmd"
