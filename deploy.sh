@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -e
 
-RUN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+RUN_DIR=$(dirname $(realpath -P ${BASH_SOURCE[0]}))
 
 source ${RUN_DIR}/lib/colors.sh
 
