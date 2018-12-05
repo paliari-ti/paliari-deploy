@@ -1,21 +1,20 @@
-publish:
+deploy:
   remote:
-    user: isse
-    host: isse.maringa.pr.gov.br
+    user: user-name
+    host: paliari.com.br
     path: /home/isse/app/api
-  git:
-    url: git@git.paliari.com.br:paliari/paliari-deploy.git
-  scp:
-    dist: .|dist
-hooks:
-  repo:
-    before:
-      - echo berore rep
-    after:
-      - echo after repo
-  release:
-    before:
-      - echo before release
-      - echo before release 2
-    after:
-      - echo after release
+  publish:
+    # choice git|scp|script
+    git:
+      url: git@git.paliari.com.br:paliari/paliari-deploy.git
+      branch: master
+    scp:
+      path: .|dist
+    script: heroku a b
+  hooks:
+    repo:
+      - echo call 1 in the repo
+      - echo call 2 in the repo
+    releases:
+      - echo call 1 in the release
+      - echo call 2 in the release
