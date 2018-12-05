@@ -68,6 +68,7 @@ cd $DIR
 
 # Link current in the release version
 $RUN_DIR/bin/set-current-release.sh $DIR $version
+$RUN_DIR/bin/gc-release.sh $DIR
 
 echo
 echo_blue 'FINISHED SERVER RELEASE--------------------'
