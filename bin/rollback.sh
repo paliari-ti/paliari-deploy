@@ -4,6 +4,7 @@ set -e
 
 RUN_DIR="$( cd "$(dirname $0)/../" && pwd )"
 source "$RUN_DIR/lib/colors.sh"
+source "$RUN_DIR/lib/yaml.sh"
 
 FILE_STAGE=".deploy/stage-$1.yml"
 version=$2
