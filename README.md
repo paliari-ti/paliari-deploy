@@ -7,7 +7,7 @@ Deploy management tool (deploy, releases and rollback)
 You must install it in your server and your local machine
 
 ```bash
-sh -c "$(curl -fsSL https://git.paliari.com.br/paliari/paliari-deploy/raw/master/install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/paliari-ti/paliari-deploy/master/install.sh)"
 ```
 
 ## Lifecycle
