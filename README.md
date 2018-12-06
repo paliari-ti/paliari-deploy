@@ -12,7 +12,7 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/paliari-ti/paliari-deploy/
 
 ## Lifecycle
 
-![Image of Lifecycle](./lifecycle-git.png)
+![Image of Lifecycle](docs/lifecycle-git.png)
 
 ## Config
 
