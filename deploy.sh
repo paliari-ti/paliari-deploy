@@ -359,5 +359,6 @@ case ${1} in
   releases-list)       releases_list ;;
   set-current-release) set_current_release ${2} ;;
   --help)              help ;;
-  *) echo_red "Action not found!"; exit 1 ;;
+  -h)                  help ;;
+  *) echo_red "Action not found!"; help; exit 1 ;;
 esac
