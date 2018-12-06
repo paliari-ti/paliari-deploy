@@ -65,7 +65,7 @@ yaml_parse() {
     ) < "$yaml_file"
 }
 
-create_variables() {
+yaml_create_variables() {
     local yaml_file="$1"
     eval "$(yaml_parse "$yaml_file")"
 }
@@ -118,7 +118,7 @@ init() {
 
   if [[ -f ${FILE_STAGE} ]]; then
     echo_yellow "Setup stage $FILE_STAGE"
-    create_variables ${FILE_STAGE}
+    yaml_create_variables ${FILE_STAGE}
     cmd="mkdir -p $deploy_remote_path && cd $deploy_remote_path"
     cmd="$cmd && mkdir -p releases && mkdir -p shared && mkdir -p current"
     if [[ ${deploy_publish_git_url} ]]; then
@@ -154,7 +154,7 @@ publish() {
     exit 1
   fi
 
-  create_variables ${FILE_STAGE}
+  yaml_create_variables ${FILE_STAGE}
 
   remote="${deploy_remote_user}@${deploy_remote_host}"
   remote_path=${deploy_remote_path}
@@ -196,7 +196,7 @@ release() {
   fi
 
   if [[ -f "$DIR/repo/.deploy/hooks.yml" ]]; then
-    create_variables "$DIR/repo/.deploy/hooks.yml"
+    yaml_create_variables "$DIR/repo/.deploy/hooks.yml"
   fi
 
   # Exec hook in the repo
@@ -254,7 +254,7 @@ releases() {
     exit 1
   fi
 
-  create_variables ${FILE_STAGE}
+  yaml_create_variables ${FILE_STAGE}
 
   remote="${deploy_remote_user}@${deploy_remote_host}"
   remote_path=${deploy_remote_path}
@@ -293,7 +293,7 @@ rollback() {
     exit 1
   fi
 
-  create_variables ${FILE_STAGE}
+  yaml_create_variables ${FILE_STAGE}
 
   remote="${deploy_remote_user}@${deploy_remote_host}"
   remote_path=${deploy_remote_path}
