@@ -45,6 +45,23 @@ deploy:
 
 ```
 
+### Structure
+
+```text
+├── current -> /my_app_name/releases/20150120114500/
+├── releases
+│   ├── 20150080072500
+│   ├── 20150090083000
+│   ├── 20150100093500
+│   ├── 20150110104000
+│   └── 20150120114500
+├── repo
+│   └── <GIT related data>
+└── shared
+    └── <linked_files and linked_dirs>
+
+```
+
 ## Usage
 
 ```bash
