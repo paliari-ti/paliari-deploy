@@ -15,8 +15,8 @@ if [[ ! -f ${FILE_STAGE} ]]; then
   exit 1
 fi
 # Validate Release path exists in the APP
-if [[ ! "$version" || ! -d "releases/$version" ]]; then
-  echo "Release version '$version' not found in '$DIR'"
+if [[ ! "$version" ]]; then
+  echo "Release version is required!"
   exit 1
 fi
 
