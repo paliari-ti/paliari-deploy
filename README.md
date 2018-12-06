@@ -80,7 +80,7 @@ Setup no servidor remoto.
 
 ### publish
 
-Setup no servidor remoto.
+Publicar no servidor remoto.
 
 ```bash
   $ paliari-deploy publish demo
