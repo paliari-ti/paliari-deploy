@@ -68,7 +68,7 @@ deploy:
 $ paliari-deploy <action> <options>
 ```
 
-## Commands
+## Actions
 
 ### init
 
@@ -78,7 +78,7 @@ Setup no servidor remoto.
   $ paliari-deploy init demo
 ```
 
-### init
+### publish
 
 Setup no servidor remoto.
 
