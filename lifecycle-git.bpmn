@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_1n0ljpk" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.3">
+  <bpmn:collaboration id="Collaboration_1av4em5">
+    <bpmn:participant id="Participant_0mspaah" name="CLI" processRef="Process_1" />
+    <bpmn:participant id="Participant_0ezhrnc" name="SERVER" processRef="Process_0nw9jec" />
+    <bpmn:messageFlow id="MessageFlow_0v8fk82" sourceRef="Task_0ya6wey" targetRef="Task_0f6gaxq" />
+    <bpmn:messageFlow id="MessageFlow_1q74if1" sourceRef="Task_0dcq1zt" targetRef="Task_0iimghe" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_1" isExecutable="true">
+    <bpmn:sequenceFlow id="SequenceFlow_11upbcv" sourceRef="StartEvent_1" targetRef="Task_0ya6wey" />
+    <bpmn:sequenceFlow id="SequenceFlow_0hmhsab" sourceRef="Task_0iimghe" targetRef="IntermediateThrowEvent_03hqnot" />
+    <bpmn:manualTask id="Task_0ya6wey" name="paliari-deploy publish production">
+      <bpmn:incoming>SequenceFlow_11upbcv</bpmn:incoming>
+    </bpmn:manualTask>
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_11upbcv</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_03hqnot">
+      <bpmn:incoming>SequenceFlow_0hmhsab</bpmn:incoming>
+    </bpmn:intermediateThrowEvent>
+    <bpmn:receiveTask id="Task_0iimghe" name="Deploy success">
+      <bpmn:outgoing>SequenceFlow_0hmhsab</bpmn:outgoing>
+    </bpmn:receiveTask>
+  </bpmn:process>
+  <bpmn:process id="Process_0nw9jec" isExecutable="false">
+    <bpmn:task id="Task_0f6gaxq" name="Update repo">
+      <bpmn:outgoing>SequenceFlow_0u08xbe</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_1mblj8c" name="Run repo hooks">
+      <bpmn:incoming>SequenceFlow_0u08xbe</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1fo7fj3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_0jxeemh" name="Copy repo to releases/&#60;tag&#62;">
+      <bpmn:incoming>SequenceFlow_1fo7fj3</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1yjqjql</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_1empktq" name="Run release hooks">
+      <bpmn:incoming>SequenceFlow_1yjqjql</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0cuelt4</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Task_087c3jw" name="Link release to current">
+      <bpmn:incoming>SequenceFlow_0cuelt4</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1el27yv</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="SequenceFlow_0u08xbe" sourceRef="Task_0f6gaxq" targetRef="Task_1mblj8c" />
+    <bpmn:sequenceFlow id="SequenceFlow_1fo7fj3" sourceRef="Task_1mblj8c" targetRef="Task_0jxeemh" />
+    <bpmn:sequenceFlow id="SequenceFlow_1yjqjql" sourceRef="Task_0jxeemh" targetRef="Task_1empktq" />
+    <bpmn:sequenceFlow id="SequenceFlow_0cuelt4" sourceRef="Task_1empktq" targetRef="Task_087c3jw" />
+    <bpmn:sequenceFlow id="SequenceFlow_1el27yv" sourceRef="Task_087c3jw" targetRef="Task_0dcq1zt" />
+    <bpmn:task id="Task_0dcq1zt" name="Clear old releases">
+      <bpmn:incoming>SequenceFlow_1el27yv</bpmn:incoming>
+    </bpmn:task>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1av4em5">
+      <bpmndi:BPMNShape id="Participant_0mspaah_di" bpmnElement="Participant_0mspaah">
+        <dc:Bounds x="123" y="82" width="502" height="211" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1" bioc:stroke="#8E24AA" bioc:fill="#E1BEE7">
+        <dc:Bounds x="220" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ManualTask_0j06tv1_di" bpmnElement="Task_0ya6wey" bioc:stroke="#43A047" bioc:fill="#C8E6C9">
+        <dc:Bounds x="188" y="185" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_11upbcv_di" bpmnElement="SequenceFlow_11upbcv">
+        <di:waypoint x="238" y="138" />
+        <di:waypoint x="238" y="185" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Participant_0ezhrnc_di" bpmnElement="Participant_0ezhrnc">
+        <dc:Bounds x="123" y="311" width="502" height="233" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_0f6gaxq_di" bpmnElement="Task_0f6gaxq" bioc:stroke="#1E88E5" bioc:fill="#BBDEFB">
+        <dc:Bounds x="188" y="334" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="MessageFlow_0v8fk82_di" bpmnElement="MessageFlow_0v8fk82">
+        <di:waypoint x="238" y="265" />
+        <di:waypoint x="238" y="334" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Task_1mblj8c_di" bpmnElement="Task_1mblj8c" bioc:stroke="#1E88E5" bioc:fill="#BBDEFB">
+        <dc:Bounds x="188" y="444" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0u08xbe_di" bpmnElement="SequenceFlow_0u08xbe">
+        <di:waypoint x="238" y="414" />
+        <di:waypoint x="238" y="444" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Task_0jxeemh_di" bpmnElement="Task_0jxeemh" bioc:stroke="#1E88E5" bioc:fill="#BBDEFB">
+        <dc:Bounds x="355" y="334" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1fo7fj3_di" bpmnElement="SequenceFlow_1fo7fj3">
+        <di:waypoint x="288" y="484" />
+        <di:waypoint x="317" y="484" />
+        <di:waypoint x="317" y="374" />
+        <di:waypoint x="355" y="374" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Task_1empktq_di" bpmnElement="Task_1empktq" bioc:stroke="#1E88E5" bioc:fill="#BBDEFB">
+        <dc:Bounds x="355" y="444" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1yjqjql_di" bpmnElement="SequenceFlow_1yjqjql">
+        <di:waypoint x="405" y="414" />
+        <di:waypoint x="405" y="444" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Task_087c3jw_di" bpmnElement="Task_087c3jw" bioc:stroke="#1E88E5" bioc:fill="#BBDEFB">
+        <dc:Bounds x="505" y="444" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0cuelt4_di" bpmnElement="SequenceFlow_0cuelt4">
+        <di:waypoint x="455" y="484" />
+        <di:waypoint x="505" y="484" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="MessageFlow_1q74if1_di" bpmnElement="MessageFlow_1q74if1">
+        <di:waypoint x="555" y="334" />
+        <di:waypoint x="555" y="265" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ReceiveTask_1an1te4_di" bpmnElement="Task_0iimghe" bioc:stroke="#43A047" bioc:fill="#C8E6C9">
+        <dc:Bounds x="505" y="185" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="IntermediateThrowEvent_03hqnot_di" bpmnElement="IntermediateThrowEvent_03hqnot" bioc:stroke="#8E24AA" bioc:fill="#E1BEE7">
+        <dc:Bounds x="537" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0hmhsab_di" bpmnElement="SequenceFlow_0hmhsab">
+        <di:waypoint x="555" y="185" />
+        <di:waypoint x="555" y="138" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Task_0dcq1zt_di" bpmnElement="Task_0dcq1zt" bioc:stroke="#1E88E5" bioc:fill="#BBDEFB">
+        <dc:Bounds x="505" y="334" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1el27yv_di" bpmnElement="SequenceFlow_1el27yv">
+        <di:waypoint x="555" y="444" />
+        <di:waypoint x="555" y="414" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
