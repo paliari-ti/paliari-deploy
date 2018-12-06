@@ -2,7 +2,7 @@
 
 set -e
 
-RUN_DIR="$(dirname "$(realpath "$0")")"
+RUN_DIR=$(dirname $(readlink $0))
 
 source ${RUN_DIR}/lib/colors.sh
 
