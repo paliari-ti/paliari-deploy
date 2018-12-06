@@ -6,20 +6,14 @@ RUN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../" && pwd )"
 source ${RUN_DIR}/lib/yaml.sh
 source ${RUN_DIR}/lib/colors.sh
 
-DIR=$1
-APP_STAGE=$2
-FILE_STAGE=".deploy/stage-$2.yml"
+DIR=$(pwd)
+APP_STAGE=$1
+FILE_STAGE=".deploy/stage-$1.yml"
 
 echo
 echo_blue "PUBLISH '$APP_STAGE' ---------------------------"
 echo
 
-# Validate APP path exists
-if [[ ! -d "$DIR" ]]; then
-    echo_red "APP path is required!"
-    exit 1
-fi
-cd $DIR
 if [[ ! -f ${FILE_STAGE} ]]; then
   echo_red "Config file not found in the '$DIR/.deploy/'"
   exit 1
@@ -43,7 +37,7 @@ elif [[ ${deploy_publish_script} ]]; then
   ${deploy_publish_script}
 fi
 
-ssh -t ${remote} "cd $remote_path/ && paliari-deploy release ."
+ssh -t ${remote} "cd $remote_path/ && paliari-deploy release"
 
 echo
 echo_green "PUBLISHED '$APP_STAGE' -------------------------"

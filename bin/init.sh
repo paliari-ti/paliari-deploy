@@ -5,19 +5,19 @@ RUN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../" && pwd )"
 source ${RUN_DIR}/lib/colors.sh
 source ${RUN_DIR}/lib/yaml.sh
 
-DIR=$1
-FILE_STAGE=".deploy/stage-$2.yml"
+DIR=$(pwd)
+FILE_STAGE=".deploy/stage-$1.yml"
 
 echo
 echo_blue 'SETUP DEPLOY REMOTE---------------------------'
 echo
 
 # Validate APP path exists
-if [[ ! -d "$DIR" ]]; then
-    echo_red "APP path is required!"
+if [[ ! -d "$DIR/.deploy" ]]; then
+    echo_red "APP not configured!"
     exit 1
 fi
-cd $DIR
+
 if [[ -f ${FILE_STAGE} ]]; then
   echo_yellow "Setup stage $FILE_STAGE"
   create_variables ${FILE_STAGE}
@@ -32,7 +32,7 @@ if [[ -f ${FILE_STAGE} ]]; then
   ssh -t ${deploy_remote_user}@${deploy_remote_host} "$cmd"
   echo_green "Success full setup remote"
 else
-  echo_red "Config file not found in the '$DIR/.deploy/'"
+  echo_red "Config file '$FILE_STAGE' not found!"
   exit 1
 fi
 
