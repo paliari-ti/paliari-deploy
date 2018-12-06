@@ -166,9 +166,11 @@ publish() {
   elif [[ ${deploy_publish_scp_path} ]]; then
     ssh -t ${remote} "cd $remote_path/repo && rm -rf ${deploy_publish_scp_path}"
     scp ${FILE_STAGE} ${remote}:${remote_path}/repo/${FILE_STAGE}
-    scp ${DIR}/.deploy/hooks.yml ${remote}:${remote_path}/repo/.deploy/hooks.yml
-    scp -r ${deploy_publish_scp_path} ${remote}:${remote_path}/repo/
-  elif [[ ${deploy_publish_script} ]]; then
+    if [[ ! -f "$DIR/.deploy/hooks.yml" ]]; then
+      scp "$DIR/.deploy/hooks.yml" "$remote:$remote_path/repo/.deploy/hooks.yml"
+    fi
+    scp -r "$deploy_publish_scp_path" "$remote:$remote_path/repo/"
+  elif [[ "$deploy_publish_script" ]]; then
     ${deploy_publish_script}
   fi
 
