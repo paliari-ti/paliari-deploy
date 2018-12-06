@@ -19,6 +19,8 @@ if [[ ! -f ${FILE_STAGE} ]]; then
   exit 1
 fi
 
+paliari-deploy self-update
+
 create_variables ${FILE_STAGE}
 
 remote="${deploy_remote_user}@${deploy_remote_host}"
@@ -37,7 +39,7 @@ elif [[ ${deploy_publish_script} ]]; then
   ${deploy_publish_script}
 fi
 
-ssh -t ${remote} "cd $remote_path/ && paliari-deploy release"
+ssh -t ${remote} "cd $remote_path/ && paliari-deploy self-update && paliari-deploy release"
 
 echo
 echo_green "PUBLISHED '$APP_STAGE' -------------------------"
