@@ -118,7 +118,7 @@ paliari-deploy releases production
 ```
 
 ```bash
-paliari-deploy rollback production <release-id>
+paliari-deploy rollback production 1544013652
 ```
 
 ## How is the folder structure on the server
@@ -126,11 +126,15 @@ paliari-deploy rollback production <release-id>
 ```text
 ├── current -> /my-app/releases/20150120114500/
 ├── releases
-│   ├── 20150080072500
-│   ├── 20150090083000
-│   ├── 20150100093500
-│   ├── 20150110104000
-│   └── 20150120114500
+│   ├── 1544013638
+│   ├── 1544013652
+│   ├── 1544013972
+│   ├── 1544013984
+│   ├── 1544014015
+│   ├── 1544015076
+│   ├── 1544015152
+│   ├── 1544016181
+│   └── 1544016181
 ├── repo
 │   └── <GIT related data>
 └── shared
