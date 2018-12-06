@@ -90,7 +90,7 @@ deploy:
 ## But wait, how do I use this?
 
 ```bash
-$ paliari-deploy <action> <stage>
+$ paliari-deploy <action> <stage> <other-options>
 ```
 
 #### Actions
@@ -99,8 +99,9 @@ $ paliari-deploy <action> <stage>
   
     > Attention: if you run `init` in a already existent directory, it will override the repo directory
 
-- `publish`: Pubishes a release in the remote server
+- `publish`: Publishes a release in the remote server
 - `releases`: Get a list of releases from the remote server
+- `rollback`: Rollback the application to a previous version
 
 #### More Examples
 
@@ -113,7 +114,11 @@ paliari-deploy publish production
 ```
 
 ```bash
-paliari-deploy releases
+paliari-deploy releases production
+```
+
+```bash
+paliari-deploy rollback production <release-id>
 ```
 
 ## How is the folder structure on the server
