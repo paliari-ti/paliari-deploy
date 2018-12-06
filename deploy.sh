@@ -337,14 +337,28 @@ set_current_release() {
 }
 # --------------------
 
+# Help
+help() {
+  echo
+  echo "Usage:"
+  echo "$ paliari-deploy <action> <stage> <other-options>"
+  echo
+  echo "See docs in the project:"
+  echo "https://github.com/paliari-ti/paliari-deploy"
+  echo
+}
+# --------------------
+
 # Deploy Actions
 case ${1} in
-  init)    init ${2} ;;
-  publish) publish ${2} ;;
-  release) release ${2} ;;
-  releases) releases ${2} ;;
-  releases-list) releases_list ;;
-  rollback) rollback ${2} ${3} ;;
+  init)                init ${2} ;;
+  publish)             publish ${2} ;;
+  release)             release ${2} ;;
+  releases)            releases ${2} ;;
+  rollback)            rollback ${2} ${3} ;;
+  releases-list)       releases_list ;;
   set-current-release) set_current_release ${2} ;;
-  *) echo_red "Action not found!"; exit 1 ;;
+  --help)              help ;;
+  -h)                  help ;;
+  *) echo_red "Action not found!"; help; exit 1 ;;
 esac

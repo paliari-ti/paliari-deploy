@@ -2,12 +2,13 @@
 
 set -e
 
-cd ~/
-rm -rf paliari-deploy
-git clone --depth 1 https://github.com/paliari-ti/paliari-deploy.git
-cd paliari-deploy/
-rm -f /usr/local/bin/paliari-deploy
-ln -s ~/paliari-deploy/deploy.sh /usr/local/bin/paliari-deploy
 echo
-echo "Success"
+rm -f /usr/local/bin/paliari-deploy
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/paliari-ti/paliari-deploy/master/deploy.sh)" > /usr/local/bin/paliari-deploy
+chmod +x /usr/local/bin/paliari-deploy
+
+echo "See docs in the project:"
+echo "https://github.com/paliari-ti/paliari-deploy"
+echo
+echo "Paliari deploy successfully installed"
 echo
