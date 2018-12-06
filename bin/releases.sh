@@ -17,4 +17,4 @@ create_variables ${FILE_STAGE}
 remote="${deploy_remote_user}@${deploy_remote_host}"
 remote_path=${deploy_remote_path}
 
-ssh -t ${remote} "cd $remote_path/ && paliari-deploy release-list"
+ssh -t ${remote} "cd $remote_path/ && paliari-deploy releases-list"
