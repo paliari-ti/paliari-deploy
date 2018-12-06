@@ -25,4 +25,6 @@ cp -a ${DIR}/releases/${version} ${DIR}/current_tmp
 mv current current_old
 mv current_tmp current
 rm -rf current_old
+
+echo_green "Linked current to '$version'"
 echo
