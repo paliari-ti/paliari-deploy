@@ -2,8 +2,11 @@
 
 set -e
 
+RUN_DIR="$( cd "$(dirname $0)/../" && pwd )"
 DIR=$(pwd)
 version=$1
+
+source "$RUN_DIR/lib/colors.sh"
 
 echo "Replece releases/$version to current"
 
