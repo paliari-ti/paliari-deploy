@@ -363,5 +363,6 @@ case ${1} in
   releases-list)       releases_list ;;
   set-current-release) set_current_release ${2} ;;
   --help|-h)           help ;;
+  --version|-v)        echo "1.0.2" ;;
   *) echo_red "Action not found!"; help; exit 1 ;;
 esac
