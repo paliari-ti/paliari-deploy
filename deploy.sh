@@ -219,8 +219,10 @@ release() {
   cp -a repo/* "releases/$version/"
   # Link shared in release
   if [[ -d "shared" ]]; then
-    for f in ${DIR}/shared/* ${DIR}/shared/.env; do
-      ln -sf ${f} ${DIR}/releases/${version}/
+    for f in shared/* shared/.env; do
+      if [[ -f "$f" ]]; then
+        ln -sf "$DIR/$f" "$DIR/releases/$version/"
+      fi
     done
     echo_green "Created shared links in releases/$version/"
   fi
