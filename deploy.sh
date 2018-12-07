@@ -116,18 +116,18 @@ init() {
       exit 1
   fi
 
-  if [[ -f ${FILE_STAGE} ]]; then
+  if [[ -f "$FILE_STAGE" ]]; then
     echo_yellow "Setup stage $FILE_STAGE"
-    yaml_create_variables ${FILE_STAGE}
+    yaml_create_variables "$FILE_STAGE"
     cmd="mkdir -p $deploy_remote_path && cd $deploy_remote_path"
     cmd="$cmd && mkdir -p releases && mkdir -p shared && mkdir -p current"
-    if [[ ${deploy_publish_git_url} ]]; then
+    if [[ "$deploy_publish_git_url" ]]; then
       cmd="$cmd && rm -rf repo && git clone --depth 1 $deploy_publish_git_url repo"
     else
       cmd="$cmd && mkdir -p repo/.deploy"
     fi
     echo_yellow "Exec remote: $cmd"
-    ssh -t ${deploy_remote_user}@${deploy_remote_host} "$cmd"
+    ssh -t "$deploy_remote_user@$deploy_remote_host" "$cmd"
     echo_green "Success full setup remote"
   else
     echo_red "Config file '$FILE_STAGE' not found!"
@@ -149,23 +149,23 @@ publish() {
   echo_blue "PUBLISH '$APP_STAGE' ---------------------------"
   echo
 
-  if [[ ! -f ${FILE_STAGE} ]]; then
+  if [[ ! -f "$FILE_STAGE" ]]; then
     echo_red "Config file not found in the '$DIR/.deploy/'"
     exit 1
   fi
 
-  yaml_create_variables ${FILE_STAGE}
+  yaml_create_variables "$FILE_STAGE"
 
-  remote="${deploy_remote_user}@${deploy_remote_host}"
-  remote_path=${deploy_remote_path}
-  if [[ ${deploy_publish_git_url} ]]; then
+  remote="$deploy_remote_user@$deploy_remote_host"
+  remote_path="$deploy_remote_path"
+  if [[ "$deploy_publish_git_url" ]]; then
     branch=${deploy_publish_git_branch:-master}
     cmd="cd $remote_path/repo && git fetch --depth 1 origin master && git reset --hard origin/$branch"
     echo $cmd
-    ssh -t ${remote} "$cmd"
-  elif [[ ${deploy_publish_scp_path} ]]; then
-    ssh -t ${remote} "cd $remote_path/repo && rm -rf ${deploy_publish_scp_path}"
-    scp ${FILE_STAGE} ${remote}:${remote_path}/repo/${FILE_STAGE}
+    ssh -t "$remote" "$cmd"
+  elif [[ "$deploy_publish_scp_path" ]]; then
+    ssh -t "$remote" "cd $remote_path/repo && rm -rf $deploy_publish_scp_path"
+    scp "$FILE_STAGE" "$remote:$remote_path/repo/$FILE_STAGE"
     if [[ -f "$DIR/.deploy/hooks.yml" ]]; then
       scp "$DIR/.deploy/hooks.yml" "$remote:$remote_path/repo/.deploy/hooks.yml"
     fi
@@ -174,7 +174,7 @@ publish() {
     ${deploy_publish_script}
   fi
 
-  ssh -t ${remote} "cd $remote_path/ && paliari-deploy release"
+  ssh -t "$remote" "cd $remote_path/ && paliari-deploy release"
 
   echo
   echo_green "PUBLISHED '$APP_STAGE' -------------------------"
@@ -241,7 +241,7 @@ release() {
   cd "$DIR"
 
   # Link current in the release version
-  set_current_release ${version}
+  set_current_release "$version"
   gc_releases
 
   echo
@@ -253,17 +253,17 @@ release() {
 # List releases
 releases() {
   FILE_STAGE=".deploy/stage-$1.yml"
-  if [[ ! -f ${FILE_STAGE} ]]; then
+  if [[ ! -f "$FILE_STAGE" ]]; then
     echo_red "Config file '$FILE_STAGE' not found!"
     exit 1
   fi
 
-  yaml_create_variables ${FILE_STAGE}
+  yaml_create_variables "$FILE_STAGE"
 
-  remote="${deploy_remote_user}@${deploy_remote_host}"
-  remote_path=${deploy_remote_path}
+  remote="$deploy_remote_user@$deploy_remote_host"
+  remote_path="$deploy_remote_path"
 
-  ssh -t ${remote} "cd $remote_path/ && paliari-deploy releases-list"
+  ssh -t "$remote" "cd $remote_path/ && paliari-deploy releases-list"
 }
 # --------------------
 
@@ -287,7 +287,7 @@ rollback() {
 
   echo_green "Start Rollback --------------------------------"
 
-  if [[ ! -f ${FILE_STAGE} ]]; then
+  if [[ ! -f "$FILE_STAGE" ]]; then
     echo_red "Config file '$FILE_STAGE' not found!"
     exit 1
   fi
@@ -297,12 +297,12 @@ rollback() {
     exit 1
   fi
 
-  yaml_create_variables ${FILE_STAGE}
+  yaml_create_variables "$FILE_STAGE"
 
-  remote="${deploy_remote_user}@${deploy_remote_host}"
-  remote_path=${deploy_remote_path}
+  remote="$deploy_remote_user@$deploy_remote_host"
+  remote_path="$deploy_remote_path"
 
-  ssh -t ${remote} "cd $remote_path/ && paliari-deploy set-current-release $version"
+  ssh -t "$remote" "cd $remote_path/ && paliari-deploy set-current-release $version"
 
   echo
   echo_green "Rollback Finished -----------------------------"
@@ -331,7 +331,7 @@ set_current_release() {
   fi
 
   # Link current in the release version
-  cp -a ${DIR}/releases/${version} ${DIR}/current_tmp
+  cp -a "$DIR/releases/$version" "$DIR/current_tmp"
   mv current current_old
   mv current_tmp current
   rm -rf current_old
@@ -362,7 +362,6 @@ case ${1} in
   rollback)            rollback ${2} ${3} ;;
   releases-list)       releases_list ;;
   set-current-release) set_current_release ${2} ;;
-  --help)              help ;;
-  -h)                  help ;;
+  --help|-h)           help ;;
   *) echo_red "Action not found!"; help; exit 1 ;;
 esac
