@@ -220,7 +220,7 @@ release() {
   # Link shared in release
   if [[ -d "shared" ]]; then
     for f in shared/* shared/.env; do
-      if [[ -f "$f" ]]; then
+      if [[ -e "$f" ]]; then
         ln -sf "$DIR/$f" "$DIR/releases/$version/"
       fi
     done
